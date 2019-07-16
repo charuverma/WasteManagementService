@@ -6,7 +6,8 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var bodyParser = require('body-parser');
 
-var Product = require('./routes/Product');
+var product = require('./routes/product');
+var category = require('./routes/category');
 
 var app = express();
 var cors = require('cors');
@@ -24,8 +25,8 @@ app.use(cookieParser());
 app.use('/public', express.static(path.join(__dirname, 'public')));
 app.use('/public', (req, res) => res.status(404).end());
 
-app.use('/Product', Product);
-
+app.use('/product', product);
+app.use('/category', category);
 app.use(bodyParser.urlencoded({extended:false}));
 app.use(bodyParser.json());
 
