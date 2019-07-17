@@ -8,6 +8,8 @@ var bodyParser = require('body-parser');
 
 var product = require('./routes/product');
 var category = require('./routes/category');
+var role = require('./routes/role');
+var user = require('./routes/user');
 
 var app = express();
 var cors = require('cors');
@@ -27,6 +29,10 @@ app.use('/public', (req, res) => res.status(404).end());
 
 app.use('/product', product);
 app.use('/category', category);
+app.use('/role', role);
+app.use('/user', user);
+
+
 app.use(bodyParser.urlencoded({extended:false}));
 app.use(bodyParser.json());
 

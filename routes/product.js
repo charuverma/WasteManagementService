@@ -40,7 +40,9 @@ let uploadFile = multer({
 router.post("/save", function(req, res, next) {
 	uploadFile(req, res, function(err) {
 		console.log(err);
-		req.body.file = req.files.length ? req.files[0].path : "";
+		if(req.files.length){
+		req.body.file = req.files[0].path;
+		}
 		sequelize
 			.save(req)
 			.then(result => {

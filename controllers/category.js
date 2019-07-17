@@ -1,6 +1,9 @@
 const models = require("../models");
 
 exports.save = function(req) {
+	if(!req.body.status) {
+		req.body.status = 0;
+	}
 	if (req.body.id) {
 		return models.categorys.update(req.body, {
 			where: {
@@ -19,7 +22,7 @@ exports.list = function(req) {
 			"id",
 			"parentId",
 			"name",
-			"Status",
+			"status",
 			"file",
 			[
 				models.sequelize.literal(
@@ -28,7 +31,6 @@ exports.list = function(req) {
 				"Parent"
 			]
 		],
-		logging: true
 	});
 };
 

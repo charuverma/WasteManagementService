@@ -14,7 +14,7 @@ module.exports = function(sequelize, DataTypes) {
 			metatitle: DataTypes.STRING,
 			metadesc: DataTypes.STRING,
 			metakeyword: DataTypes.STRING,
-			Status: DataTypes.INTEGER,
+			status: DataTypes.STRING,
 			file: DataTypes.STRING
 		},
 		{
