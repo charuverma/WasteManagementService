@@ -4,15 +4,29 @@ exports.save = function(req) {
     if(!req.body.status) {
 		req.body.status = 0;
 	}
-	if (req.body.id) {
-		return models.users.update(req.body, {
+	return (
+		req.body.id ?
+		models.users.update(req.body, {
 			where: {
 				id: req.body.id
 			}
-		});
-	} else {
-	return models.users.create(req.body);
-}
+		})
+		:
+		models.users.create(req.body)
+	)
+		.then(data => {
+			console.log("defrtgyhujk");
+		return {status: true , id :(req.body.id || data.id)};
+	}).catch(err => {
+		if(err.errors)
+		return{
+			status:false,
+			errors: models.makeErrors(err.errors)
+		};
+	else
+		throw err;
+	});  
+	
 };
 //Show user List
 exports.list = function(req) {

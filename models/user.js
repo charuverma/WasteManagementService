@@ -10,22 +10,60 @@ module.exports = function(sequelize, DataTypes) {
 			},
 			role: DataTypes.STRING,
 			name: DataTypes.STRING,
-			emailid: DataTypes.STRING,
-			mobile: DataTypes.INTEGER,
+			emailid:{ 
+				type:DataTypes.STRING,
+				 validate: {
+					isUnique: function(value, next){
+						Model.findOne({
+							where:{
+								id:{[sequelize.Sequelize.Op.ne]: this.id},
+								emailid:value
+							},
+						}).then(function(data){
+							if(data !== null){
+								next('Email already exist');
+							} else{
+								next();
+							}
+						});
+					}
+				}  
+			},
+			mobile:{ 
+				type:DataTypes.INTEGER,
+				 validate: {
+					isUnique: function(value, next){
+						Model.findOne({
+							where:{
+								id:{[sequelize.Sequelize.Op.ne]: this.id},
+								mobile:value
+							},
+						}).then(function(data){
+							if(data !== null){
+								next('Mobile already exist');
+							} else{
+								next();
+							}
+						});
+					}
+				}  
+			},
 			password: DataTypes.STRING,
 			address: DataTypes.STRING,
 			status: DataTypes.STRING,
-			file: DataTypes.STRING
+			file:DataTypes.STRING
 		},
 		{
 			tableName: "user",
             timestamps: false,
             hooks: {
-                beforeCreate: (user) => {
-                  const salt = bcrypt.genSaltSync();
-                  user.password = bcrypt.hashSync(user.password, salt);
+                afterValidate: (user) => {
+					if(user.password){
+						const salt = bcrypt.genSaltSync();
+						user.password = bcrypt.hashSync(user.password, salt);
+					}
                 }
-              },
+            },
         }
 	);
 	return Model;
