@@ -18,7 +18,7 @@ module.exports = function(sequelize, DataTypes) {
 			file: DataTypes.STRING
 		},
 		{
-			tableName: "category",
+			tableName: "categories",
 			timestamps: false
 		}
 	);

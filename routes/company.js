@@ -1,6 +1,6 @@
 var express = require("express");
 var router = express.Router();
-var sequelize = require("../controllers/user");
+var sequelize = require("../controllers/company");
 var multer = require("multer");
 const fs = require("fs");
 const path = require("path");
@@ -36,43 +36,45 @@ let uploadFile = multer({
 	limits: { fileSize: 2000000 }
 }).any();
 
-/* save user Details */
 router.post("/save", function(req, res, next) {
 	uploadFile(req, res, function(err) {
-		console.log(err);
-		if(req.files.length){
-		req.body.file = req.files[0].path;
-		}
+        ///Multiple image saved
+        req.files.forEach( function (up_files) {
+			if (up_files.path !=='') {
+				req.body[up_files.fieldname] = up_files.path;
+			}
+        });
 		sequelize
 			.save(req)
 			.then(result => {
-				res.send(result);
+				res.send({ status: true, result ,message:"File succesfully uploaded"});
 			})
-			.catch(console.log);
+            .catch(console.log);
 	});
 });
 router.post("/list", function(req, res, next) {
-	sequelize
-		.list(req)
-		.then(result => {
-			res.send({ status: true, result });
-		})
-		.catch(console.log);
+    sequelize
+        .list(req)
+        .then(result => {
+            res.send({ status: true, result });
+        })
+        .catch(console.log);
 });
 router.post("/delete", function(req, res, next) {
-	sequelize
-		.delete(req)
-		.then(result => {
-			res.send({ status: true, result });
-		})
-		.catch(console.log);
+    sequelize
+        .delete(req)
+        .then(result => {
+            res.send({ status: true, result });
+        })
+        .catch(console.log);
 });
 router.post("/get", function(req, res, next) {
-	sequelize
-		.get(req)
-		.then(result => {
-			res.send({ status: true, result });
-		})
-		.catch(console.log);
+    sequelize
+        .get(req)
+        .then(result => {
+            res.send({ status: true, result });
+        })
+        .catch(console.log);
 });
+
 module.exports = router;

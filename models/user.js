@@ -54,7 +54,7 @@ module.exports = function(sequelize, DataTypes) {
 			file:DataTypes.STRING
 		},
 		{
-			tableName: "user",
+			tableName: "users",
             timestamps: false,
             hooks: {
                 afterValidate: (user) => {

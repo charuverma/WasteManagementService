@@ -15,7 +15,6 @@ exports.save = function(req) {
 		models.users.create(req.body)
 	)
 		.then(data => {
-			console.log("defrtgyhujk");
 		return {status: true , id :(req.body.id || data.id)};
 	}).catch(err => {
 		if(err.errors)
@@ -30,7 +29,24 @@ exports.save = function(req) {
 };
 //Show user List
 exports.list = function(req) {
-	return models.users.findAll({});
+	return models.users.findAll({
+		attributes: [
+            'id',
+            'role',
+            'name',
+			'emailid',
+			'mobile',
+			'password',
+			'address',
+			'status',
+			'file',
+            [
+              models.sequelize.literal('(Select name from roles where id=users.role)'),
+              'Parent'
+            ]
+          ],
+          logging:true,
+        });
 };
 //delete
 exports.delete = function(req) {

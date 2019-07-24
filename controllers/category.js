@@ -26,7 +26,7 @@ exports.list = function(req) {
 			"file",
 			[
 				models.sequelize.literal(
-					"(Select name from category where id=categorys.ParentId)"
+					"(Select name from categories where id=categorys.ParentId)"
 				),
 				"Parent"
 			]

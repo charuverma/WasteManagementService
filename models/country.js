@@ -1,6 +1,6 @@
 module.exports = function(sequelize, DataTypes) {
 	var Model = sequelize.define(
-		"roles",
+		"countrys",
 		{
 			id: {
 				type: DataTypes.INTEGER,
@@ -11,7 +11,7 @@ module.exports = function(sequelize, DataTypes) {
 			status:DataTypes.STRING,
 		},
 		{
-            tableName: "roles",
+            tableName: "countries",
             timestamps:false,
 		}
 	);

@@ -6,7 +6,7 @@ router.post("/save", function(req, res, next) {
     sequelize
         .save(req)
         .then(result => {
-            res.send({ status: true, result });
+            res.send(result);
         })
         .catch(console.log);
 });

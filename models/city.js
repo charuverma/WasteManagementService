@@ -1,17 +1,19 @@
 module.exports = function(sequelize, DataTypes) {
 	var Model = sequelize.define(
-		"roles",
+		"citys",
 		{
 			id: {
 				type: DataTypes.INTEGER,
 				primaryKey: true,
 				autoIncrement: true
 			},
+			countryId:DataTypes.STRING,
+            stateId:DataTypes.STRING,
 			name: DataTypes.STRING,
 			status:DataTypes.STRING,
 		},
 		{
-            tableName: "roles",
+            tableName: "cities",
             timestamps:false,
 		}
 	);

@@ -12,6 +12,11 @@ var role = require('./routes/role');
 var user = require('./routes/user');
 var register = require('./routes/register');
 var login = require('./routes/login');
+var country = require('./routes/country');
+var state = require('./routes/state');
+var city = require('./routes/city');
+var company = require('./routes/company');
+var collector = require('./routes/collector');
 
 var app = express();
 var cors = require('cors');
@@ -35,6 +40,11 @@ app.use('/role', role);
 app.use('/user', user);
 app.use('/register', register);
 app.use('/login', login);
+app.use('/country', country);
+app.use('/state', state);
+app.use('/city', city);
+app.use('/company',company);
+app.use('/collector',collector);
 
 
 app.use(bodyParser.urlencoded({extended:false}));
