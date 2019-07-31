@@ -17,9 +17,9 @@ exports.save = function(req) {
 exports.list=function(req){
     return models.countrys.findAll({
     });
-  };
+};
 
-  exports.delete = function(req) {
+exports.delete = function(req) {
 	return models.countrys.destroy({
 		where: {
 			id: req.body.id
@@ -34,3 +34,24 @@ exports.get = function(req) {
 		}
 	});
 };
+
+exports.list1 = (function(req) {
+	let pageLimit = req.app.locals.site.pageLimit;
+	  req = req.body;
+	  let	page = req.page || 1,
+	  limit = req.limit || pageLimit;
+  
+	  return models.countrys.findAndCountAll({
+		  limit: limit,
+		  offset: (page - 1) * limit,
+	  }).then(data => {
+		  return {
+			  status: true,
+			  data: data.rows,
+			  totalData: data.count,
+			  pageCount: Math.ceil(data.count / limit),
+			  pageLimit: limit,
+			  currentPage: parseInt(page)
+		  };
+	  });
+  });

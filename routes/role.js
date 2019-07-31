@@ -31,10 +31,21 @@ router.post("/get", function(req, res, next) {
     sequelize
         .get(req)
         .then(result => {
-            res.send({ status: true, result });
+            res.send({result });
         })
         .catch(console.log);
 });
 
+router.post('/permissions',function (req, res,next) {
+    sequelize.permissions(req).then(result => {
+        res.send({result});
+    }).catch(console.log);
+});
+
+router.post("/list1", function(req, res, next) {
+    sequelize.list1(req).then(result => {
+        res.send(result);
+    }).catch(console.log)
+});
 
 module.exports = router;

@@ -77,4 +77,10 @@ router.post("/get", function(req, res, next) {
         .catch(console.log);
 });
 
+router.post("/list1", function(req, res, next) {
+    sequelize.list1(req).then(result => {
+        res.send(result);
+    }).catch(console.log)
+});
+
 module.exports = router;
