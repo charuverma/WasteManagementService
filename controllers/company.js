@@ -40,9 +40,17 @@ exports.list1 = (function(req) {
 	let pageLimit = req.app.locals.site.pageLimit;
 	  req = req.body;
 	  let	page = req.page || 1,
-	  limit = req.limit || pageLimit;
+	  limit = req.limit || pageLimit,
+	  where={};
+	  if(req.compname){
+		where.compname = {[models.Sequelize.Op.like]: '%' + req.compname + '%'};
+	  }
+	  if(req.contactPN){
+		where.contactPN = {[models.Sequelize.Op.like]: '%' + req.contactPN + '%'};
+	  }
   
 	  return models.companys.findAndCountAll({
+		  where,
 		  limit: limit,
 		  offset: (page - 1) * limit,
 	  }).then(data => {

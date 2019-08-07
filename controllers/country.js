@@ -35,7 +35,7 @@ exports.get = function(req) {
 	});
 };
 
-exports.list1 = (function(req) {
+exports.list1 =function(req) {
 	let pageLimit = req.app.locals.site.pageLimit;
 	  req = req.body;
 	  let	page = req.page || 1,
@@ -54,4 +54,4 @@ exports.list1 = (function(req) {
 			  currentPage: parseInt(page)
 		  };
 	  });
-  });
+  };

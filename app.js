@@ -56,7 +56,7 @@ app.use(function(req, res, next) {
 });
 
 app.locals.site = {
-	pageLimit: 2
+	pageLimit: 3
 };
 
 // error handler

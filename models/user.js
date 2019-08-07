@@ -8,7 +8,7 @@ module.exports = function(sequelize, DataTypes) {
 				primaryKey: true,
 				autoIncrement: true
 			},
-			role: DataTypes.STRING,
+			roleId: DataTypes.STRING,
 			name: DataTypes.STRING,
 			emailid:{ 
 				type:DataTypes.STRING,

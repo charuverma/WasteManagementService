@@ -39,7 +39,6 @@ let uploadFile = multer({
 /* save user Details */
 router.post("/save", function(req, res, next) {
 	uploadFile(req, res, function(err) {
-		console.log(err);
 		if(req.files.length){
 		req.body.file = req.files[0].path;
 		}

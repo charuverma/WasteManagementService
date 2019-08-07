@@ -58,6 +58,19 @@ exports.list1 = function(req) {
 	  limit = req.limit || pageLimit;
   
 	  return models.categorys.findAndCountAll({
+		attributes: [
+			"id",
+			"parentId",
+			"name",
+			"status",
+			"file",
+			[
+				models.sequelize.literal(
+					"(Select name from categories where id=categorys.ParentId)"
+				),
+				"Parent"
+			]
+		],
 		  limit: limit,
 		  offset: (page - 1) * limit,
 	  }).then(data => {

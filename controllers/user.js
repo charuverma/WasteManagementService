@@ -1,4 +1,5 @@
 const models = require("../models");
+models.users.belongsTo(models.roles); 
 
 exports.save = function(req) {
     if(!req.body.status) {
@@ -64,13 +65,41 @@ exports.get = function(req) {
 	});
 };
 
-exports.list1 = (function(req) {
+exports.list1 = function(req) {
 	let pageLimit = req.app.locals.site.pageLimit;
 	  req = req.body;
 	  let	page = req.page || 1,
-	  limit = req.limit || pageLimit;
-  
+	  limit = req.limit || pageLimit,
+	  where = {},
+	  whereRole={};
+	  if(req.name) {
+		where.name = {[models.Sequelize.Op.like] : '%' + req.name + '%'};
+	  }
+	  
+	  if(req.roleName) {
+		whereRole.name = {[models.Sequelize.Op.like] : '%' + req.roleName + '%'};
+	  }
+	  
 	  return models.users.findAndCountAll({
+		attributes: [
+            'id',
+            'roleId',
+            'name',
+			'emailid',
+			'mobile',
+			'password',
+			'address',
+			'status',
+			'file',
+		  ],
+		    include:[{
+			model: models.roles,
+			attributes:[
+				'name'
+			],
+			where: whereRole
+		}], 
+		  where,
 		  limit: limit,
 		  offset: (page - 1) * limit,
 	  }).then(data => {
@@ -83,4 +112,4 @@ exports.list1 = (function(req) {
 			  currentPage: parseInt(page)
 		  };
 	  });
-  });
+  };

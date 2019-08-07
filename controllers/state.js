@@ -64,6 +64,18 @@ exports.list1 = (function(req) {
 	  limit = req.limit || pageLimit;
   
 	  return models.states.findAndCountAll({
+      attributes: [
+        "id",
+        "countryId",
+        "name",
+        "status",
+        [
+          models.sequelize.literal(
+            "(Select name from countries where id=states.countryId)"
+          ),
+          "Parent"
+        ]
+      ],
 		  limit: limit,
 		  offset: (page - 1) * limit,
 	  }).then(data => {

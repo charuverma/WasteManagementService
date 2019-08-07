@@ -106,23 +106,29 @@ exports.permissions=function(req){
 	return models.permission.findAll(
 	);
   };
-  exports.list1 = (function(req) {
+  exports.list1 = (req) => {
 	let pageLimit = req.app.locals.site.pageLimit;
 	  req = req.body;
 	  let	page = req.page || 1,
-	  limit = req.limit || pageLimit;
+	  limit = req.limit || pageLimit,
+	  where = {};
+
+	  if(req.name) {
+		where.name = {[models.Sequelize.Op.like]: '%' + req.name + '%'};
+	  }
   
-	  return models.roles.findAndCountAll({
-		  limit: limit,
-		  offset: (page - 1) * limit,
-	  }).then(data => {
-		  return {
-			  status: true,
-			  data: data.rows,
-			  totalData: data.count,
-			  pageCount: Math.ceil(data.count / limit),
-			  pageLimit: limit,
-			  currentPage: parseInt(page)
-		  };
-	  });
-  });
+	return models.roles.findAndCountAll({
+		where,
+		limit: limit,
+		offset: (page - 1) * limit,
+	}).then(data => {
+		return {
+			status: true,
+			data: data.rows,
+			totalData: data.count,
+			pageCount: Math.ceil(data.count / limit),
+			pageLimit: limit,
+			currentPage: parseInt(page)
+		};
+	}).catch(console.log);
+};

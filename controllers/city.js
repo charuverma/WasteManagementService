@@ -1,8 +1,10 @@
 const models = require("../models");
+models.citys.belongsTo(models.states);
+models.citys.belongsTo(models.countrys);
 
 exports.save = function(req) {
 	if(!req.body.status) {
-		req.body.sstatus = 0;
+		req.body.status = 0;
 	}
 	if (req.body.id) {
 		return models.citys.update(req.body, {
@@ -18,8 +20,6 @@ exports.list=function(req){
     return models.citys.findAll({
         attributes: [
 			'id',
-			'countryId',
-            'stateId',
             'name',
             'status',
             [
@@ -59,9 +59,46 @@ exports.getAll = function(req) {
 	let pageLimit = req.app.locals.site.pageLimit;
 	  req = req.body;
 	  let	page = req.page || 1,
-	  limit = req.limit || pageLimit;
+	  limit = req.limit || pageLimit,
+	  where = {},
+	  whereState = {},
+	  whereCountry= {};
+	  if(req.name){
+		  where.name = {[models.Sequelize.Op.like] : '%' + req.name + '%'};
+	  }
+
+	  if(req.stateName) {
+		whereState.name = {[models.Sequelize.Op.like] : '%' + req.stateName + '%'};
+	  }
+
+	  if(req.countryName) {
+		whereCountry.name = {[models.Sequelize.Op.like] : '%' + req.countryName + '%'};
+	  }
+
+
   
 	  return models.citys.findAndCountAll({
+		attributes: [
+			'id',
+			'name',
+			'stateId',
+			'countryId',
+            'status',
+		  ],
+		  include:[{
+			  model: models.states,
+			  attributes:[
+				  'name'
+			  ],
+			  where: whereState
+		  }, {
+			model: models.countrys,
+			attributes:[
+				'name'
+			],
+			where: whereCountry
+		}],
+		  where,
 		  limit: limit,
 		  offset: (page - 1) * limit,
 	  }).then(data => {
